@@ -1,3 +1,5 @@
+package com.app.config;
+
     import java.util.Arrays;
 import java.util.Collections;
 
@@ -8,23 +10,21 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.server.ServerWebExchange;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
-
-import jakarta.servlet.http.HttpServletRequest;
-
 @Configuration
 public class AppConfig{
 
+    @SuppressWarnings("removal")
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and().authorizeHttpRequests(authorize->authorize.requestMatchers("/api/**").authenticated().anyRequest().permitAll()
-        ).addFilterBefore(null, null)
+        ).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
         .csrf().disable()
         .cors().configurationSource((org.springframework.web.cors.CorsConfigurationSource) new CorsConfigurationSource() {
 
