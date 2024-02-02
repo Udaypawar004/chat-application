@@ -29,7 +29,7 @@ public class AppConfig{
         .cors().configurationSource((org.springframework.web.cors.CorsConfigurationSource) new CorsConfigurationSource() {
 
             @Override
-            public CorsConfiguration getCorsConfiguration(ServerWebExchange arg0) {
+            public CorsConfiguration getCorsConfiguration(@SuppressWarnings("null") ServerWebExchange arg0) {
                 CorsConfiguration corsConfig = new CorsConfiguration();
                 corsConfig.setAllowedOrigins(Arrays.asList(
                     "http://localhost:3000/"
